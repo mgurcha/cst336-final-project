@@ -44,7 +44,7 @@ if(isset($_POST["add_info"])){
   <a href="index.php">Home</a>
   <a href="user.php">Users</a>
   <a href="admin.php">Admins</a>
-</div
+</div>
 
     <body>
     <form method = "post" id = "form_insert"> 
@@ -53,10 +53,6 @@ if(isset($_POST["add_info"])){
         <br>
         <input type = "text" id = "movie" name = "movie" required />
         <br>
-        Genre:
-        <br>
-        <input type = "text" id = "genre" name = "genre" required  />
-        <br>
         Year:
         <br>
         <input type = "text" id = "year" name = "year" required  />
@@ -64,6 +60,10 @@ if(isset($_POST["add_info"])){
         Movie Image URL:
         <br>
         <input type = "text" id = "img" name = "img" required  />
+        <br>
+        Genre:
+        <br>
+        <input type = "text" id = "song_count" name = "genre" required />
         <br>
         <br>
         <input type = "submit" value = "Submit" name = "add_info" />
