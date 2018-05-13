@@ -2,16 +2,10 @@
 
 function getDatabaseConnection()
 {
-//    $host = "us-cdbr-iron-east-05.cleardb.net";
-  //  $username = "b12a172bae1b47";
-//    $password = "b4bb0fe0";
-  //  $dbname="heroku_718defa20350e99";
-    
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    // $dbname="cst336_final_project";
-    $dbname="Movies";
+    $host = "us-cdbr-iron-east-04.cleardb.net";
+    $username = "b0c32ef507eb8b";
+    $password = "6835662b";
+    $dbname="heroku_a60cc9c28ffb14a";
 
 // Create connection
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
