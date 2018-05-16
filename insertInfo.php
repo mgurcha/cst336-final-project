@@ -44,6 +44,7 @@ if(isset($_POST["add_info"])){
   <a href="index.php">Home</a>
   <a href="user.php">Users</a>
   <a href="admin.php">Admins</a>
+  <a href="logout.php"style="float:right !important">Logout</a>
 </div>
 
     <body>
