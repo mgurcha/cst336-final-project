@@ -231,6 +231,7 @@ function showAllRecords($param, $query, $param2){
     </form>
     <br /> <h2 id='selection'> Type a keyword and select a category to filter, or select a genre. <br /><h2 />
 
+    <br>
     <div id = "userlist">
         <?=displayTable()?>
     </div>
