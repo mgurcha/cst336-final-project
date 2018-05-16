@@ -197,7 +197,7 @@ function showAllRecords($param, $query, $param2){
         <label for="pName">Search For: </label>
         <input type="text" name="query" placeholder="Name" id="pName">
        <select id = "dropdown" name = "sort" >
-            <option>- Filter By -</option>
+            <option>- Sort By -</option>
             <option name = "sort" value = "Sort By Movie Name">Sort By Movie Name</option>
             <option name = "sort" value = "Sort By Genre">Sort By Genre</option>
             <option name = "sort" value = "Sort By Year">Sort By Year</option>
