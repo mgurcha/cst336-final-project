@@ -229,7 +229,7 @@ function displayAverage(){
 function displayAvgRating(){
     $records = getAvgRating();
  echo ' <table class="table table-striped table table-inverse">
-    <<thead align = "left">
+    <thead align = "left">
       <tr>
         <th>Rounded Average Movie Rating:</th>
       </tr>
@@ -365,7 +365,7 @@ function displayCategory(){
             <br>
             <?=displayAverageProducers()?>
         </div>
-        <div id = "average" >
+        <div id = "average">
             <br>
             <h3>Count of movies per producer:</h2>
             <br>
@@ -380,6 +380,7 @@ function displayCategory(){
         </div>
         <div id="AvgRating">
             <br>
+            <h3>Average Movie Rating:</h3>
             <?=displayAvgRating()?>
         </div>
         <div id = "Ratings" >
