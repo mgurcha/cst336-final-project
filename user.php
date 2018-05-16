@@ -22,8 +22,13 @@ function getCategoriesHTML() {
 }
 function displayTable(){
     $param = $_POST["sort"];
+    $param2 = $_POST["list"];
+    
     if (isset($_POST["sort"]) && !empty($query)){
         $param = $_POST["sort"];
+    }
+    if (isset($_POST["list"]) && !empty($query)){
+        $param2 = $_POST["list"];
     }
     if (isset($_POST["query"])  && !empty($query)){
          $query=$_POST["query"];
@@ -32,7 +37,7 @@ function displayTable(){
         $category = $_POST["category"];
     }
     if(isset($_POST['submitted'])){
-        showAllRecords($param, $query);
+        showAllRecords($param, $query, $param2);
     }
     if(isset($_POST['submitted-category'])){
         showCategory($category);
@@ -83,10 +88,7 @@ function showCategory($category){
 }
 
 
-/*
-show all the records and albums of artists.
-*/
-function showAllRecords($param, $query){
+function showAllRecords($param, $query, $param2){
     global $conn;
     
     if($param == "Sort By Movie Name"){
@@ -102,25 +104,45 @@ function showAllRecords($param, $query){
         else if($param =="Sort By Production Company"){
             $param = "name";
         }
-        else{
+        else if($param =="Sort By Year"){
              $param = "year";
+        }
+        else{
+            $param = " ";
         }
     }
     
-    
+    if($param2 == "Rating"){
+        $param2 = " AND rating.rating > 8.0";
+    }
+    else{
+        if($param2 =="RatingLess"){
+             $param2 = " AND rating.rating < 8.0";
+        }
+        else if($param2 =="MovieLess"){
+             $param2 = " AND movie.year < 2000";
+        }
+        else if($param2 =="MovieYear"){
+             $param2 = " AND movie.year > 2000";
+        }
+        else{
+            $param2 = " ";
+        }
+    }
+
     $sql="SELECT *
             FROM movies
             LEFT JOIN rating ON movies.movie_id=rating.movie_id 
             LEFT JOIN production_co on production_co.production_id=movies.production_id
-            WHERE LOWER(movie) LIKE LOWER('%" .$_POST["query"]. "%') 
-            OR name LIKE LOWER('%" .$_POST["query"]. "%')
-            OR genre LIKE LOWER('%" .$_POST["query"]. "%') ORDER BY " . $param;
+            WHERE (LOWER(movie) LIKE LOWER('%" .$_POST["query"]. "%') " . $param2 . ")
+             OR name LIKE LOWER('%" .$_POST["query"]. "%')
+            OR genre LIKE LOWER('%" .$_POST["query"]. "%') " ;
    
     if($_POST['ordering'] == 'desc'){
-        $sql .= " DESC;";
+        $sql .= " ORDER BY " . $param . " DESC;";
     }
-    else{
-        $sql .= " ASC;";
+    else if($_POST['ordering'] == 'asc'){
+        $sql .= " ORDER BY " . $param ." ASC;";
     }
 
     $stmt = $conn->prepare($sql);
@@ -175,12 +197,20 @@ function showAllRecords($param, $query){
         <label for="pName">Search For: </label>
         <input type="text" name="query" placeholder="Name" id="pName">
        <select id = "dropdown" name = "sort" >
-            <option>- Sort By -</option>
+            <option>- Filter By -</option>
             <option name = "sort" value = "Sort By Movie Name">Sort By Movie Name</option>
             <option name = "sort" value = "Sort By Genre">Sort By Genre</option>
             <option name = "sort" value = "Sort By Year">Sort By Year</option>
             <option name = "sort" value = "Sort By Rating">Sort By Rating</option>
             <option name = "sort" value = "Sort By Production Company">Sort By Production Company</option>
+        </select><br />
+        
+        <select id = "dropdown" name = "list" >
+            <option>- List Only Where -</option>
+            <option name = "list" value = "Rating">Rating is greater than 8</option>
+            <option name = "list" value = "RatingLess">Rating is less than 8</option>
+            <option name = "list" value = "MovieLess">Year released is before 2000</option>
+            <option name = "list" value = "MovieYear">Year released is after 2000</option>
         </select><br />
  
         <input type= "radio" id = "horizontal" name = "ordering" value = "asc">
