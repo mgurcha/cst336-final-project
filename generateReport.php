@@ -90,19 +90,34 @@ function getGenre(){
     return $records;
 }
 
+
+//select year, count(*) from movies group by year;
+
+//select year, count(*) from movies group by year order by count(*) desc limit 1;
+
+
 /*
 Gets Movies before 2000.
 */
 
+function getMax(){
+    global $conn;
+
+     $sql2="select year, count(*) from movies group by year order by count(*) desc limit 1;";
+     
+     $stmt = $conn -> prepare($sql2);
+    $stmt->execute();
+    $records = $stmt->fetchAll();
+    return $records;
+    
+}
 function getMovies(){
     global $conn;
 
-            
-    $sql="SELECT *
+    $sql="SELECT year, count(*), movie
             FROM movies
-            NATURAL JOIN production_co
-            WHERE year < 2010
-            ORDER BY year desc";
+            group by year
+            ORDER BY count(*) desc";
             
     $stmt = $conn -> prepare($sql);
     $stmt->execute();
@@ -153,23 +168,42 @@ function displayRatings(){
 
 function displayMovies(){
     $records = getMovies();
+    $records2=getMax();
+    
     echo ' <table class="table table-striped table table-inverse">
     <thead align = "left">
       <tr>
-      <th>Movie Name</th>
-        <th>Genre</th>
         <th>Year</th>
-        <th>Production Company</th>
+        <th>Max Movies Releases</th>
+      </tr>
+    </thead>
+    <tbody>';
+    foreach($records2 as $record2){
+      echo '<tr>';
+      echo  "<td>" . $record2["year"] . "<td>" . $record2["count(*)"];
+      echo '</tr>';
+    }
+    echo '</tbody>';
+    echo '</table>';
+    
+    echo '<h3> Sum of movies released each year: </h3>';
+    echo ' <table class="table table-striped table table-inverse">
+    <thead align = "left">
+      <tr>
+        <th>Year</th>
+        <th>Count of Movies Released</th>
       </tr>
     </thead>
     <tbody>';
     foreach($records as $record){
       echo '<tr>';
-      echo  "<td>" .$record["movie"]. "<td>" . $record["genre"] . "<td>" . $record["year"] . "<td>" . $record["name"];
+      echo  "<td>" . $record["year"] . "<td>" . $record["count(*)"];
       echo '</tr>';
     }
     echo '</tbody>';
     echo '</table>';
+    
+    
     
 }
 //Displays the Average:
@@ -306,6 +340,7 @@ function displayCategory(){
   <a href="index.php">Home</a>
   <a href="user.php">Users</a>
   <a href="admin.php">Admins</a>
+  <a href="logout.php"style="float:right !important">Logout</a>
 </div
 
     <body>
@@ -315,7 +350,7 @@ function displayCategory(){
             <button id="b_button" onclick="showAverage()">Generate Form: <br>
             Average Production Company & Count of production companies</button>
             <br>
-            <button id="b_button" onclick="showMovies()">Generate Form: <br> Movies before 2010</button>
+            <button id="b_button" onclick="showMovies()">Generate Form: <br> Movies Released Each Year</button>
             <br>
             <button id="b_button" onclick = "showRatings()">Generate Form: <br> Movie Ratings & 
             Average Movie Rating</button>
@@ -339,7 +374,9 @@ function displayCategory(){
         
         <div id = "Movies" >
               <br>
+              <h3>Year with the maximum amount of movies released:</h2>
             <?=displayMovies()?>
+            <br>
         </div>
         <div id="AvgRating">
             <br>
