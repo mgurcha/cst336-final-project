@@ -229,7 +229,7 @@ function showAllRecords($param, $query, $param2){
         </div>
         
     </form>
-    <br /> <h2 id='selection'> Type a keyword, select a category, or select a genre. <br /><h2 />
+    <br /> <h2 id='selection'> Type a keyword and select a category to filter, or select a genre. <br /><h2 />
 
     <div id = "userlist">
         <?=displayTable()?>
